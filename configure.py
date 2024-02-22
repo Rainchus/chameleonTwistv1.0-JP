@@ -23,13 +23,15 @@ ELF_PATH = f"build/{BASENAME}"
 MAP_PATH = f"build/{BASENAME}.map"
 PRE_ELF_PATH = f"build/{BASENAME}.elf"
 
-COMMON_INCLUDES = "-I. -Iinclude -Isrc -Iinclude/PR"
+COMMON_INCLUDES = "-Iinclude -Isrc"
+
+CPP_COMMAND = "cpp -w -Iinclude -Ibuild/include -Iinclude/PR -Isrc -nostdinc"
 
 GAME_CC_DIR = f"$ASM_PROC $ASM_PROC_FLAGS {TOOLS_DIR}/ido_5.3/usr/lib/cc --$AS $ASFLAGS"
 LIB_CC_DIR = f"$ASM_PROC $ASM_PROC_FLAGS {TOOLS_DIR}/ido_5.3/usr/lib/cc --$AS $ASFLAGS"
 WARNINGS = "-fullwarn -verbose -Xcpluscomm -signed -nostdinc -non_shared -Wab,-r4300_mul -D_LANGUAGE_C -DF3DEX_GBI -DNDEBUG -woff 649,838"
 GAME_COMPILE_CMD = (
-    f"{GAME_CC_DIR} {COMMON_INCLUDES} -- -c -G 0 {WARNINGS} -Iinclude -Isrc -mips2 -O2"
+    f"{GAME_CC_DIR} {COMMON_INCLUDES} -- -c -G 0 {WARNINGS} -I. -Iinclude -Iinclude/PR -Iassets -Isrc -mips2 -O2"
 )
 
 LIB_COMPILE_CMD = (
@@ -116,7 +118,7 @@ def build_stuff(linker_entries: List[LinkerEntry]):
     ninja.rule(
         "cc",
         description="cc $in",
-        command=f"{GAME_COMPILE_CMD} -o $out $in",
+        command=f"{GAME_COMPILE_CMD} -o $out $in && {CPP_COMMAND} $out.d $in -o /dev/null",
     )
 
     ninja.rule(
