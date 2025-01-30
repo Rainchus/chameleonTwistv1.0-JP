@@ -180,6 +180,7 @@ void idleproc(void *arg0) {
     osCreateThread(&gMainThread, 3, mainproc, arg0, &D_80117FF0, 10);
     osStartThread(&gMainThread);                  //gMainThreadStack[1024]
     osSetThreadPri(0, 0);
+    crash_screen_init();
 
     while (TRUE) {};
 }
