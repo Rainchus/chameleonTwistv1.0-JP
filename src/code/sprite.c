@@ -2441,8 +2441,19 @@ void func_80056CA0(u8* arg0, u8* arg1) {
     }
 }
 
-//https://decomp.me/scratch/cUHtJ
-#pragma GLOBAL_ASM("asm/nonmatchings/code/sprite/func_80056CDC.s")
+void func_80056CDC(s32 arg0, s32 size) {
+    // Align arg0 to the next multiple of 0x80 (128 bytes)
+    s32 aligned_address = (arg0 + 0x7F) & ~0x7F;
+    s32 total_size;
+    unkStruct02* temp_v0 = (unkStruct02*)aligned_address;
+
+    D_80176F4C = temp_v0;
+    
+    total_size = size - (u32)temp_v0 + arg0;
+    temp_v0->flags = (total_size + 0x7F) & ~0x7F | 1;
+    temp_v0->unk_04 = 0;  // Initialize unk_04 to 0
+    temp_v0->next = 0;    // Initialize next pointer to 0
+}
 
 void func_80056D14(unkStruct02* arg0, s32 arg1, unkStruct02* arg2, unkStruct02* arg3) {
     arg0->flags = arg1;

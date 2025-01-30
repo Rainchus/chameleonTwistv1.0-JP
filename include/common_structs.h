@@ -1039,8 +1039,8 @@ D_MTXSLOTD = 0x80129A30; // type:Mtx*/
 
 typedef struct GraphicStruct {
     union { //something very strange is up with these
-        Gfx dlist[0x1000];
-        Mtx mtx[0x200];
+        Gfx dlist[0x2000];
+        Mtx mtx[0x400];
     } UnkGroup;
 /*0x8000*/      Mtx perspective;
 /*0x8040*/      Mtx lookAt;

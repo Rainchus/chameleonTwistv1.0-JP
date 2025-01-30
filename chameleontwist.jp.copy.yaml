@@ -292,7 +292,6 @@ segments:
       - [0xEC590, .rodata, audio/seq] #80111190
       - [0xEC5A0, .rodata, audio/reverb] #801111A0
       - [0xEC5D0, rodata, gspFast3DDataStart]
-      - [auto, c, test/crash]
       - {start: 0xED090, type: .bss, vram: 0x80111C90, name: code/1050 } # This has the same rom address as below as bss isnt in the ROM
       - {start: 0xED090, type: bss, vram: 0x80168D70, name: globalBSS }
       - {start: 0xED090, type: .bss, vram: 0x801748A0, name: code/84E0 }
@@ -12295,3 +12294,12 @@ segments:
     subsegments:
       - [0xB315D0, databin, ROM_PADDING]
       - [0xC00000]
+
+  - name: mod
+    vram: 0x80480000
+    type: code
+    subalign: 8
+    start: 0xC00000
+    subsegments:
+      - [auto, c, mod/crash]
+      - [auto, c, mod/text]

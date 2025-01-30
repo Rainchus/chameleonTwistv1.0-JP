@@ -180,12 +180,29 @@ void idleproc(void *arg0) {
     osCreateThread(&gMainThread, 3, mainproc, arg0, &D_80117FF0, 10);
     osStartThread(&gMainThread);                  //gMainThreadStack[1024]
     osSetThreadPri(0, 0);
+    __osPiRawStartDma(0, mod_ROM_START, mod_VRAM, mod_ROM_END - mod_ROM_START);
     crash_screen_init();
 
     while (TRUE) {};
 }
 
-#pragma GLOBAL_ASM("asm/nonmatchings/code/1050/mainproc.s")
+void mainproc(void* arg0) {
+    u32 temp_t5;
+
+    osCreateMesgQueue(&D_80119290, &D_80119288, 1);
+    osCreateMesgQueue(&gAudioDoneMessageQueue, &D_801192A8, 1);
+    osCreateMesgQueue(&gFrameDrawnMessageQueue, &D_801192AC, 1);
+    osCreateMesgQueue(&gSyncMessageQueue, &D_801192B0, 1);
+    osPiStartDma(&D_80119300, 0, 0, (u32) &assets0_ROM_START, &assets0_VRAM, (s32)&assets0_ROM_END - (u32)&assets0_ROM_START, &D_80119290);
+    osRecvMesg(&D_80119290, NULL, 1);
+    D_801191A0 = assets0_BSS_START;
+    temp_t5 = _ALIGN((u32)&static0_ROM_END - (u32)&static0_ROM_START, 16);
+    D_80100F50[1].base_address = (u32)&gFrameBuffers - temp_t5;
+    D_80100F50[1].unk4 = (u32)&gFrameBuffers;
+    osPiStartDma(&D_80119300, 0, 0, (u32) static0_ROM_START, D_80100F50[1].base_address, temp_t5, &D_80119290);
+    osRecvMesg(&D_80119290, NULL, 1);
+    MainLoop();
+}
 
 //animates the player
 #ifdef NON_MATCHING
@@ -1043,7 +1060,7 @@ Gfx* func_8002B7BC(GraphicStruct* arg0, Gfx* gfxPos) {
     return gfxPos;
 }
 
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos) {
     s32 i;
 
@@ -1052,18 +1069,24 @@ Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos) {
     gfxPos = func_8005F408(gfxPos);
 
     for (i = 0; i < 4; i++) {
-        if (!gPlayerActors[i].exists) {
+        if (i != 0) {
             continue;
         }
+        // if (!gPlayerActors[i].exists) {
+        //     continue;
+        // }
         gfxPos = func_8002A190(arg0, gfxPos, &gPlayerActors[i], &gTongues[i], i);
         gfxPos = func_8002A824(arg0, gfxPos, &gPlayerActors[i], &gTongues[i], i);
     }
     gfxPos = func_8002B7BC(arg0, gfxPos);
     gfxPos = func_800C3B50(arg0, gfxPos);
     for (i = 0; i < 4; i++) {
-        if (!gPlayerActors[i].exists) {
+        if (i != 0) {
             continue;
         }
+        // if (!gPlayerActors[i].exists) {
+        //     continue;
+        // }
         func_800849DC(i, &gTongues[i], &gPlayerActors[i], gCamera);
         gfxPos = func_800849D4(gfxPos);
     }
@@ -1093,10 +1116,10 @@ Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos) {
 
     return gfxPos;
 }
-#else
-#pragma GLOBAL_ASM("asm/nonmatchings/code/1050/func_8002C280.s")
-Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos);
-#endif
+// #else
+// #pragma GLOBAL_ASM("asm/nonmatchings/code/1050/func_8002C280.s")
+// Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos);
+// #endif
 
 #ifdef NON_MATCHING
 Gfx* func_8002C4E8(Gfx* gfxPos, s32 arg1, s32 arg2) {
@@ -1144,9 +1167,24 @@ Gfx* func_8002C4E8(Gfx* gfxPos, s32 arg1, s32 arg2) {
 Gfx* func_8002C4E8(Gfx* gfxPos, s32 arg1, s32 arg2);
 #endif
 
+void convertAsciiToText(void* buffer, char* source);
+
+//draws overworld/cutscene
 Gfx* func_8002C900(GraphicStruct* arg0, s32 arg1) {
     Gfx* gfxPos = arg0->UnkGroup.dlist;
     s32 i;
+    f32 startY = 176.0f;
+
+
+    f32 xPos = 72.0f;
+    f32 yPos = 72.0f;
+    s32 arga2 = 0.0f;
+    f32 scale = 0.5f;
+    f32 arga4 = 0.0f;
+    f32 arga5 = 0.0f;
+    s32 style = 1;
+
+
 
     gfxPos = func_8002C4E8(arg0->UnkGroup.dlist, arg1, 0);
     gSPDisplayList(gfxPos++, D_1015B18);
@@ -1156,7 +1194,7 @@ Gfx* func_8002C900(GraphicStruct* arg0, s32 arg1) {
 
     for (i = 0; i < ARRAY_COUNT(gPlayerActors); i++) {
         if (!gPlayerActors[i].exists) {
-            continue;
+            //continue;
         }
         func_80025EF0(&gPlayerActors[i], &gTongues[i], i);
     }
@@ -1169,6 +1207,20 @@ Gfx* func_8002C900(GraphicStruct* arg0, s32 arg1) {
     gfxPos = func_8005CA44(gfxPos);
     func_8007AC60(gCamera, gPlayerActors);
     func_8008C35C(&gfxPos);
+    // for (i = 0; i < 4; i++) {
+    //     char* buffer = (char*)0x807FF800;
+    //     char* buffer2 = (char*)0x807FFC00;
+
+    //     formatText(0, 0, buffer, "P%d: %d %d  %08X %08X", i, gPlayerActors[i].active, gPlayerActors[i].exists,  &gPlayerActors[i].active, &gPlayerActors[i].exists);
+    //     _bzero(buffer2, sizeof(buffer2));
+    //     convertAsciiToText(buffer2, buffer);
+    //     //PrintText(xPos, yPos, arga2, scale, arga4, arga5, buffer2, style);
+    //     PrintTextWrapper(14.0f, yPos, 0.0f, 0.7f, buffer2, 1);
+    //     yPos+= 15.0f;
+    // }
+
+    //PrintTextWrapper(72.0f, 176.0f, 0.0f, 1.0f, "ＰＲＥＳＳ  ＳＴＡＲＴ", 1);
+    
     gDPFullSync(gfxPos++);
     gSPEndDisplayList(gfxPos++);
     return gfxPos;
@@ -1330,9 +1382,9 @@ void func_8002D080(void) {
     D_80174878 = -1;
     gControllerNo = Controller_Init();   // @returned: number of controllers
     gPlayerActors[0].active = 1;
-    gPlayerActors[1].active = 0;
-    gPlayerActors[2].active = 0;
-    gPlayerActors[3].active = 0;
+    gPlayerActors[1].active = 1;
+    gPlayerActors[2].active = 1;
+    gPlayerActors[3].active = 1;
     Audio_StartThread();
     Sched_StartThread();
 }

@@ -3269,7 +3269,7 @@ Gfx* func_8008D168(Gfx* gfxPos, s32 arg1, s32 arg2) {
         gDPSetRenderMode(gfxPos++, G_RM_NOOP, G_RM_NOOP2);
         gDPSetColorImage(gfxPos++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 320, OS_K0_TO_PHYSICAL(&gFrameBuffers[arg1]));
         gDPSetFillColor(gfxPos++, PACK_FILL_COLOR(D_800FF8DC, D_800FF8E0, D_800FF8E4, 1));
-        gDPFillRectangle(gfxPos++, 18, 16, 337, 247);
+        gDPFillRectangle(gfxPos++, 18, 16, 319, 239);
         gDPPipeSync(gfxPos++);
     }
 
@@ -3998,7 +3998,8 @@ void Porocess_Mode0(void) {
 
         for (; i < ARRAY_COUNT(gPlayerActors); i++) {
             gPlayerActors[i].active = 0;
-        }            
+        }
+        gPlayerActors[1].active = 1;
         for (i = 0; i < ARRAY_COUNT(gTongues); i++) {
             _bzero(&gTongues[i], sizeof(Tongue));
         }
@@ -4081,7 +4082,7 @@ void Porocess_Mode0(void) {
         
         gPlayerActors[0].active = 1;
         for (i = 1; i < ARRAY_COUNT(gPlayerActors); i++) {
-            gPlayerActors[i].active = 0;
+            gPlayerActors[i].active = 1;
         }
         
         gNoHit = 0;
@@ -8112,6 +8113,7 @@ void func_800AAAC8(void) {
     gPlayerActors->pos.z = 600.0f;
 }
 
+//demo function
 void func_800AAB0C(s32 arg0) {
     s32 dmaResult;
     s32 dmaSize;
