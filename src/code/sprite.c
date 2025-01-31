@@ -3714,6 +3714,7 @@ Gfx* func_8005CA44(Gfx* gfxPos) {
     gSPDisplayList(gfxPos++, static0_spriteController7_Gfx);
     gSPMatrix(gfxPos++, &D_800F68D0[4], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
+    //related to plants and other things in the overworld drawing
     tile = D_80176F98[gSpriteFrameBuffer];
     for (i = 0; i < D_800FDFA8[gSpriteFrameBuffer]; tile++, i++) {
         ulx = ABS2(tile->tileIndexX * tile->width);
@@ -3850,6 +3851,7 @@ Gfx* func_8005CA44(Gfx* gfxPos) {
     gSPDisplayList(gfxPos++, static0_spriteController7_Gfx);
     gSPMatrix(gfxPos++, &D_800F68D0[4], G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
+    //related to drawing HUD
     tile = D_8018E698[gSpriteFrameBuffer];
     for (i = 0; i < D_800FDFB8[gSpriteFrameBuffer]; tile++, i++) {
         ulx = ABS2(tile->tileIndexX * tile->width);

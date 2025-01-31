@@ -20,7 +20,6 @@ tools/gcc_2.7.2/
 .vscode/targets.log
 .vscode/snips.code-snippets
 tools/n64crc/n64crc.exe
-src/mod/
 tools/cli.ini
 
 # Tool artifacts
