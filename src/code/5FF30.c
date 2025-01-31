@@ -3999,7 +3999,11 @@ void Porocess_Mode0(void) {
         for (; i < ARRAY_COUNT(gPlayerActors); i++) {
             gPlayerActors[i].active = 0;
         }
-        gPlayerActors[1].active = 1;
+
+        for (i = 0; i < 4; i++) {
+            gPlayerActors[i].active = 1; //set all players to active
+            gSelectedCharacters[i] = 2; //set everyone to the same character to avoid a crash
+        }
         for (i = 0; i < ARRAY_COUNT(gTongues); i++) {
             _bzero(&gTongues[i], sizeof(Tongue));
         }

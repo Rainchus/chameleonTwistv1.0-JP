@@ -6035,28 +6035,28 @@ void SetPlayerEyes(s32 spriteIndex, s32 whichEye, s32 eyeIndex) {
     };
     switch (whichEye) {                                 /* irregular */
     case BOTH:
-        sprite = &gSpriteListings[spriteIndex];
-        eye = &chameleonEyeList[eyeIndex];
-        size = sprite->width * sprite->height * sprite->tileCountX * sprite->tileCountY;
-        SetEyeTexture(eye->eyeR, sprite->raster, size);
-        SetEyeTexture(eye->eyeRPalette, sprite->palette, CI8_PAL_SIZE);
-        size = sprite[5].height * sprite[5].tileCountX * sprite[5].tileCountY * sprite[5].width;
-        SetEyeTexture(eye->eyeL, sprite[5].raster, size);
-        SetEyeTexture(eye->eyeLPalette, sprite[5].palette, CI8_PAL_SIZE);
+        // sprite = &gSpriteListings[spriteIndex];
+        // eye = &chameleonEyeList[eyeIndex];
+        // size = sprite->width * sprite->height * sprite->tileCountX * sprite->tileCountY;
+        // SetEyeTexture(eye->eyeR, sprite->raster, size);
+        // SetEyeTexture(eye->eyeRPalette, sprite->palette, CI8_PAL_SIZE);
+        // size = sprite[5].height * sprite[5].tileCountX * sprite[5].tileCountY * sprite[5].width;
+        // SetEyeTexture(eye->eyeL, sprite[5].raster, size);
+        // SetEyeTexture(eye->eyeLPalette, sprite[5].palette, CI8_PAL_SIZE);
         break;
     case RIGHT:
-        sprite = &gSpriteListings[spriteIndex];
-        eye = &chameleonEyeList[eyeIndex];
-        size = sprite->width * sprite->height * sprite->tileCountX * sprite->tileCountY;
-        SetEyeTexture(eye->eyeR, sprite->raster, size);
-        SetEyeTexture(eye->eyeRPalette, sprite->palette, CI8_PAL_SIZE);
+        // sprite = &gSpriteListings[spriteIndex];
+        // eye = &chameleonEyeList[eyeIndex];
+        // size = sprite->width * sprite->height * sprite->tileCountX * sprite->tileCountY;
+        // SetEyeTexture(eye->eyeR, sprite->raster, size);
+        // SetEyeTexture(eye->eyeRPalette, sprite->palette, CI8_PAL_SIZE);
         break;
     case LEFT:
-        sprite = &gSpriteListings[spriteIndex];
-        eye = &chameleonEyeList[eyeIndex];
-        size = sprite[5].height * sprite[5].tileCountX * sprite[5].tileCountY * sprite[5].width;
-        SetEyeTexture(eye->eyeL, sprite[5].raster, size);
-        SetEyeTexture(eye->eyeLPalette, sprite[5].palette, CI8_PAL_SIZE);
+        // sprite = &gSpriteListings[spriteIndex];
+        // eye = &chameleonEyeList[eyeIndex];
+        // size = sprite[5].height * sprite[5].tileCountX * sprite[5].tileCountY * sprite[5].width;
+        // SetEyeTexture(eye->eyeL, sprite[5].raster, size);
+        // SetEyeTexture(eye->eyeLPalette, sprite[5].palette, CI8_PAL_SIZE);
         break;
     }
 }

@@ -1069,24 +1069,24 @@ Gfx* func_8002C280(GraphicStruct* arg0, Gfx* gfxPos) {
     gfxPos = func_8005F408(gfxPos);
 
     for (i = 0; i < 4; i++) {
-        if (i != 0) {
-            continue;
-        }
-        // if (!gPlayerActors[i].exists) {
+        // if (i != 0) {
         //     continue;
         // }
+        if (!gPlayerActors[i].exists) {
+            continue;
+        }
         gfxPos = func_8002A190(arg0, gfxPos, &gPlayerActors[i], &gTongues[i], i);
         gfxPos = func_8002A824(arg0, gfxPos, &gPlayerActors[i], &gTongues[i], i);
     }
     gfxPos = func_8002B7BC(arg0, gfxPos);
     gfxPos = func_800C3B50(arg0, gfxPos);
     for (i = 0; i < 4; i++) {
-        if (i != 0) {
-            continue;
-        }
-        // if (!gPlayerActors[i].exists) {
+        // if (i != 0) {
         //     continue;
         // }
+        if (!gPlayerActors[i].exists) {
+            continue;
+        }
         func_800849DC(i, &gTongues[i], &gPlayerActors[i], gCamera);
         gfxPos = func_800849D4(gfxPos);
     }
